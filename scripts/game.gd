@@ -440,6 +440,26 @@ func _spawn_special_fx(cell: Vector2i, kind: int) -> void:
 	tw.tween_property(fx, "scale", Vector3(2.6, 2.6, 2.6), 0.22).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 	tw.tween_property(mat, "albedo_color", Color(mat.albedo_color.r, mat.albedo_color.g, mat.albedo_color.b, 0.0), 0.22)
 	tw.chain().tween_callback(fx.queue_free)
+	if kind == ROCKET_H or kind == ROCKET_V:
+		var lane := MeshInstance3D.new()
+		var lane_mesh := BoxMesh.new()
+		lane_mesh.size = Vector3(GRID_SIZE * CELL, 0.14, 0.07) if kind == ROCKET_H else Vector3(0.14, GRID_SIZE * CELL, 0.07)
+		lane.mesh = lane_mesh
+		var lane_mat := StandardMaterial3D.new()
+		lane_mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+		lane_mat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+		lane_mat.albedo_color = Color("#6beaff", 0.9)
+		lane_mat.emission_enabled = true
+		lane_mat.emission = Color("#25dfff")
+		lane_mat.emission_energy_multiplier = 3.0
+		lane.material_override = lane_mat
+		lane.position = _cell_position(cell, 0.60)
+		lane.scale = Vector3(0.02, 1.0, 1.0) if kind == ROCKET_H else Vector3(1.0, 0.02, 1.0)
+		add_child(lane)
+		var lane_tw := create_tween().set_parallel(true)
+		lane_tw.tween_property(lane, "scale", Vector3.ONE, 0.16).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+		lane_tw.tween_property(lane_mat, "albedo_color", Color("#6beaff", 0.0), 0.2)
+		lane_tw.chain().tween_callback(lane.queue_free)
 
 func _spawn_clear_fx(cell: Vector2i) -> void:
 	var fx := MeshInstance3D.new()

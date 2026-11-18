@@ -120,11 +120,11 @@ func _make_art_sprite(texture: Texture2D, world_size: float, keyed := false) -> 
 		var shader := Shader.new()
 		shader.code = """
 shader_type spatial;
-render_mode unshaded, cull_disabled, depth_draw_alpha_prepass;
+render_mode unshaded, cull_disabled, depth_prepass_alpha;
 uniform sampler2D art_texture : source_color;
 void fragment() {
 	vec4 px = texture(art_texture, UV);
-	if (px.r < 0.13 && px.g < 0.16 && px.b < 0.23) {
+	if (distance(px.rgb, vec3(0.14, 0.18, 0.24)) < 0.17) {
 		discard;
 	}
 	ALBEDO = px.rgb;
@@ -617,6 +617,8 @@ func _best_paint_kind(cell: Vector2i) -> int:
 				highest = counts[kind]
 				most_common = kind
 		best_kind = most_common
+		if best_kind == old_kind:
+			best_kind = (old_kind + 1) % BASE_TYPES
 	return best_kind
 
 func _run_length_at(cell: Vector2i, kind: int) -> int:

@@ -397,15 +397,18 @@ func _resolve_matches(initial_data: Dictionary) -> void:
 
 		score += (matches.size() + (1 if special_kind >= 0 else 0)) * 60
 		var clear_tween := create_tween().set_parallel(true)
+		var has_clear_animation := false
 		for cell in matches.keys():
 			var candy := _find_candy(cell)
 			if candy != null:
 				clear_tween.tween_property(candy, "scale", Vector3.ZERO, 0.17).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_IN)
+				has_clear_animation = true
 		if special_kind >= 0:
 			var anchor_candy := _find_candy(special_cell)
 			if anchor_candy != null:
 				clear_tween.tween_property(anchor_candy, "scale", Vector3(1.28, 1.28, 1.28), 0.17)
-		if clear_tween.get_property_count() > 0:
+				has_clear_animation = true
+		if has_clear_animation:
 			await clear_tween.finished
 
 		for cell in matches.keys():
@@ -439,6 +442,7 @@ func _resolve_matches(initial_data: Dictionary) -> void:
 
 func _drop_and_refill() -> void:
 	var fall_tween := create_tween().set_parallel(true)
+	var has_fall_animation := false
 	for x in range(GRID_SIZE):
 		var write_y := GRID_SIZE - 1
 		for y in range(GRID_SIZE - 1, -1, -1):
@@ -453,13 +457,15 @@ func _drop_and_refill() -> void:
 						candy.set_meta("cell", destination)
 						candy.name = "Candy_%d_%d" % [x, write_y]
 						fall_tween.tween_property(candy, "position", _cell_position(destination), 0.2).set_trans(Tween.TRANS_BOUNCE).set_ease(Tween.EASE_OUT)
+						has_fall_animation = true
 				write_y -= 1
 		for y in range(write_y, -1, -1):
 			var kind := randi_range(0, BASE_TYPES - 1)
 			grid[y][x] = kind
 			var new_candy := _create_candy(Vector2i(x, y), kind, true)
 			fall_tween.tween_property(new_candy, "position", _cell_position(Vector2i(x, y)), 0.24).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
-	if fall_tween.get_property_count() > 0:
+			has_fall_animation = true
+	if has_fall_animation:
 		await fall_tween.finished
 
 func _update_hud() -> void:

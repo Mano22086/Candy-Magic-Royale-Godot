@@ -1,4 +1,5 @@
 [application]
+run/max_fps=60
 config/name="Candy Magic Royale"
 run/main_scene="res://Main.tscn"
 

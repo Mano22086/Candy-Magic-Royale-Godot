@@ -1,35 +1,39 @@
 # Candy Magic Royale — Godot
 
-Independent Godot 4 project for the Android-first Candy Magic Royale game.
+Android-first Godot 4 project. This repository is independent from the original web/Babylon.js project.
 
-## Project files
-- `project.godot` — project configuration
-- `Main.tscn` — 3D scene, camera, lighting, and HUD
-- `scripts/game.gd` — 3D candy board, match detection, special pieces, and cascade loop
+## Original artwork imported from the old project
+- Six transparent candy PNG illustrations from `assets/models/`, used directly on the 3D board.
+- Special candy artwork: wrapped candy, peppermint swirl, rainbow gem, and chocolate color ball.
+- Booster artwork: magic wand, hammer, rocket, and +5 moves.
+- Original start-screen SVG artwork: enchanted garden, castle, Queen Luma, Dragon Prince, and kingdom map.
 
-## Implemented in source
-- 8×8 board with six glossy colored 3D candy shapes
-- Touch/mouse drag to swap adjacent candies
-- Horizontal and vertical match detection for 3+
-- Invalid swaps revert
-- Match 4 creates a directional rocket
-- Match 5 or 6 creates a color bomb
-- L/T intersections create a wrapped area bomb
-- Rockets clear a full row or column
-- Wrapped bombs clear a 3×3 area
-- Color bombs clear all candies of the swapped color
-- Special pieces trigger chain reactions and have activation/creation animations
-- Matched candies clear, remaining candies fall, new candies spawn, and cascades resolve
-- Moves and score counters
+## Current gameplay
+- 8×8 3D board with the original six candy illustrations layered over glossy 3D candy cores.
+- Touch/mouse drag to swap adjacent candies.
+- Horizontal/vertical match detection, invalid-swap revert, clear, gravity, refill, and cascades.
+- Four-match creates a rocket that clears its row or column.
+- Five/six-match creates a color ball that clears candies of the swapped color.
+- L/T intersections create a wrapped bomb that clears a 3×3 area.
+- Special candies trigger chain reactions.
+- Moves and score counters.
 
-## Run
-Open the repository as a Godot 4 project and run `Main.tscn`.
+## Start screen and entry flow
+- Recreated the old title-screen layout with the enchanted garden, castle, Queen Luma, Dragon Prince, title, and the original labels `GUEST PLAY` and `FACEBOOK PLAY`.
+- GUEST PLAY opens a kingdom map panel; the first house button starts the game.
+- FACEBOOK PLAY opens the same explanatory dialog as the old project: real Facebook authentication still needs a Meta app ID/configuration. The dialog offers guest play and back.
 
-## Current status
-This is source code, not a tested Android APK or published web build. It still needs to be opened and run in Godot 4 for runtime validation. Special-piece logic has been added in source but has not yet been verified in a live engine session. A browser-playable link requires a Godot Web export using matching export templates, then publishing the exported files. GitHub source files alone are not a playable build.
+## Functional boosters
+- Paintbrush: select a candy; it changes to the color that makes the strongest nearby match it can find.
+- Shuffle: rearranges the board and searches for a match-free arrangement with a legal move.
+- Bomb: select a candy; clears the surrounding 3×3 area.
+- Color ball: select a candy; clears every candy of that color.
+- Rocket: select a candy; clears its full row.
+- +5 moves: adds five moves immediately.
+- Each booster has its own remaining-use counter.
 
-## Next passes
-1. Run in Godot 4 and fix any parser/runtime issues.
-2. Add dedicated high-quality particle/beam effects and sound for each special.
-3. Add level goals, blockers, hearts, boosters, progression, and save data.
-4. Profile and optimize on the target Android device, then prepare Android and Web exports.
+## Important media limitation
+The old start screen also uses an MP4 cinematic file (about 6.5 MB). The connected GitHub file reader can retrieve text and smaller image assets, but it returned no binary payload for that MP4, so it has **not** been copied into this Godot project. The recreated start screen currently uses the original SVG backdrop and floating character/castle artwork instead of that exact MP4. The start buttons and entry flow are implemented in source.
+
+## Validation status
+Source files and original artwork have been committed to this repository. Godot is not installed in this working environment, so this update has **not** been run or parser-tested inside the Godot engine. It is not an Android APK or browser build yet. Runtime validation on Godot 4 and the target phone is still required.

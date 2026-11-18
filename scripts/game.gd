@@ -230,10 +230,10 @@ func _try_swap(a: Vector2i, b: Vector2i) -> void:
 		match_data = {"cells": special_matches, "special_cell": Vector2i(-1, -1), "special_kind": -1}
 	else:
 		match_data = _analyze_matches(b)
-		if not (match_data["cells"] as Dictionary).is_empty():
+		if not match_data["cells"].is_empty():
 			_expand_special_chains(match_data["cells"], kind_a)
 
-	if (match_data["cells"] as Dictionary).is_empty():
+	if match_data["cells"].is_empty():
 		_swap_data(a, b)
 		await _animate_swap(a, b)
 		hint_label.text = "مفيش تطابق — جرّب حركة تانية"

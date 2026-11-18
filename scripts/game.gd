@@ -347,6 +347,7 @@ func _find_matches() -> Dictionary:
 func _add_special_effect(cell: Vector2i, special_kind: int, target_kind: int, matches: Dictionary) -> void:
 	if not _inside(cell):
 		return
+	matches[cell] = true
 	match special_kind:
 		ROCKET_H:
 			for x in range(GRID_SIZE):
@@ -396,6 +397,17 @@ func _resolve_matches(initial_data: Dictionary) -> void:
 			matches.erase(special_cell)
 
 		score += (matches.size() + (1 if special_kind >= 0 else 0)) * 60
+		var activation_tween := create_tween().set_parallel(true)
+		var has_activation := false
+		for cell in matches.keys():
+			if int(grid[cell.y][cell.x]) >= ROCKET_H:
+				var special_candy := _find_candy(cell)
+				if special_candy != null:
+					activation_tween.tween_property(special_candy, "scale", Vector3(1.55, 1.55, 1.55), 0.13).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+					activation_tween.tween_property(special_candy, "rotation_degrees", Vector3(0, 0, 360), 0.2)
+					has_activation = true
+		if has_activation:
+			await activation_tween.finished
 		var clear_tween := create_tween().set_parallel(true)
 		var has_clear_animation := false
 		for cell in matches.keys():

@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 1120" role="img" aria-labelledby="title desc">
+<title id="title">Candy Magic Royale — Royal World Map</title>
+<desc id="desc">A magical candy kingdom map with five connected lands, a crystal waterfall, enchanted candy forest, royal castle, starlight bridge and dragon summit.</desc>
+<defs>
+ <linearGradient id="sky" x2="0" y2="1"><stop stop-color="#160d3d"/><stop offset=".55" stop-color="#3c1c70"/><stop offset="1" stop-color="#171044"/></linearGradient>
+ <radialGradient id="nebula"><stop stop-color="#e77bdc" stop-opacity=".48"/><stop offset="1" stop-color="#8b55e9" stop-opacity="0"/></radialGradient>
+ <linearGradient id="water" x2="0" y2="1"><stop stop-color="#72f4ff"/><stop offset="1" stop-color="#3974d8"/></linearGradient>
+ <linearGradient id="grass" x2=".15" y2="1"><stop stop-color="#9cf4b4"/><stop offset="1" stop-color="#328e91"/></linearGradient>
+ <linearGradient id="pinkland" x2="0" y2="1"><stop stop-color="#ffb3e5"/><stop offset="1" stop-color="#bd58b8"/></linearGradient>
+ <linearGradient id="gold" x2="0" y2="1"><stop stop-color="#fff2a6"/><stop offset="1" stop-color="#ff9e57"/></linearGradient>
+ <linearGradient id="violet" x2="0" y2="1"><stop stop-color="#c6a4ff"/><stop offset="1" stop-color="#6942b8"/></linearGradient>
+ <filter id="glow"><feGaussianBlur stdDeviation="8" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+ <filter id="shadow"><feGaussianBlur in="SourceAlpha" stdDeviation="9"/><feOffset dy="12"/><feComponentTransfer><feFuncA type="linear" slope=".42"/></feComponentTransfer><feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+ <pattern id="stars" width="130" height="130" patternUnits="userSpaceOnUse"><circle cx="18" cy="25" r="2" fill="#fff2c2"/><circle cx="83" cy="61" r="1.5" fill="#d9c5ff"/><path d="M112 13v12m-6-6h12" stroke="#ffe8a5" stroke-width="2" opacity=".7"/></pattern>
+</defs>
+<rect width="900" height="1120" rx="38" fill="url(#sky)"/>
+<ellipse cx="430" cy="280" rx="430" ry="260" fill="url(#nebula)"/>
+<rect width="900" height="1120" fill="url(#stars)" opacity=".9"/>
+<g fill="#fff2bd" opacity=".9"><path d="M95 160l9 23 23 9-23 9-9 23-9-23-23-9 23-9z"/><path d="M770 220l7 17 17 7-17 7-7 17-7-17-17-7 17-7z"/><path d="M700 520l6 14 14 6-14 6-6 14-6-14-14-6 14-6z"/></g>
+<g opacity=".5" fill="none" stroke="#a78bfa" stroke-width="3"><path d="M0 360Q210 300 420 370T900 330"/><path d="M0 760Q230 690 450 770T900 720"/></g>
+<!-- distant floating islands -->
+<g opacity=".55" fill="#63459e"><path d="M40 400l55-35 78 8 38 38-34 22H73z"/><path d="M710 395l42-31 81 11 31 34-44 20h-77z"/></g>
+<!-- enchanted garden island -->
+<g filter="url(#shadow)">
+ <path d="M85 305Q95 230 205 222Q295 175 390 230Q475 250 470 333Q430 395 320 405L160 390Q83 370 85 305Z" fill="url(#grass)" stroke="#c2ffd5" stroke-width="7"/>
+ <path d="M140 365q80 34 155 5t140-9l-40 62-175 22-78-39z" fill="#286f82"/>
+ <g><path d="M172 270q-10-65 29-76 47 5 29 76z" fill="#5a3195"/><circle cx="201" cy="226" r="40" fill="#ff9ad8"/><circle cx="185" cy="215" r="15" fill="#ffd4ed"/><path d="M286 282q-8-75 38-83 46 12 25 83z" fill="#603b9f"/><circle cx="326" cy="229" r="42" fill="#ffcf76"/><circle cx="312" cy="214" r="15" fill="#fff0b2"/><path d="M382 298q-6-55 27-64 34 8 24 64z" fill="#6940a6"/><circle cx="408" cy="264" r="32" fill="#ff8fca"/></g>
+ <g fill="#fff0a4"><circle cx="126" cy="324" r="8"/><circle cx="440" cy="326" r="7"/><circle cx="260" cy="370" r="6"/></g>
+ <g transform="translate(275 290)"><circle r="35" fill="#ffdf8c" opacity=".35" filter="url(#glow)"/><path d="M0-32l9 22 23 10-23 9L0 32l-9-23-23-9 23-10z" fill="url(#gold)" stroke="#fff5c8" stroke-width="4"/></g>
+</g>
+<!-- crystal falls island -->
+<g filter="url(#shadow)">
+ <path d="M470 450Q490 365 590 365Q680 325 770 390Q835 440 795 510Q720 555 600 545L500 520Z" fill="url(#violet)" stroke="#e5d5ff" stroke-width="7"/>
+ <path d="M548 405l45-105 45 105-45 30zM650 420l37-82 38 82-38 27z" fill="#a9f7ff" stroke="#e2ffff" stroke-width="5"/>
+ <path d="M590 430Q570 500 615 565Q642 595 625 635L680 635Q664 575 700 535Q730 485 690 430" fill="url(#water)" opacity=".95" stroke="#b7ffff" stroke-width="5" filter="url(#glow)"/>
+ <path d="M615 450q-5 65 22 110m28-104q-12 66 5 104" stroke="#e6ffff" stroke-width="8" fill="none" stroke-linecap="round"/>
+ <g fill="#fff"><circle cx="535" cy="465" r="7"/><circle cx="750" cy="470" r="8"/><circle cx="690" cy="520" r="5"/></g>
+</g>
+<!-- candy castle island -->
+<g filter="url(#shadow)">
+ <path d="M160 660Q180 585 290 575Q390 540 470 600Q520 650 485 725Q420 780 290 765L190 735Z" fill="url(#pinkland)" stroke="#ffd9f2" stroke-width="7"/>
+ <path d="M270 680v-100h48v100m24 0V555h58v125m20 0v-90h45v90" fill="#f8c7ff" stroke="#fff0ff" stroke-width="6"/>
+ <path d="M260 585l34-65 34 65zm68-30l43-78 43 78zm72 30l31-60 31 60z" fill="#ffdc83" stroke="#fff1b8" stroke-width="5"/>
+ <path d="M250 680h220v60H250z" fill="#7547a6" stroke="#ffe3fa" stroke-width="5"/>
+ <path d="M340 740v-62q20-35 40 0v62" fill="#ffe28a"/>
+ <g fill="#fff0aa"><circle cx="292" cy="635" r="8"/><circle cx="385" cy="612" r="8"/><circle cx="437" cy="650" r="7"/></g>
+ <path d="M370 475l9 22 22 9-22 9-9 22-9-22-22-9 22-9z" fill="#fff0a6" filter="url(#glow)"/>
+</g>
+<!-- starlight bridge -->
+<g filter="url(#shadow)">
+ <path d="M520 770Q610 700 710 745Q815 790 815 875Q740 930 625 902Q530 875 520 770Z" fill="#5542a2" stroke="#bbaaff" stroke-width="7"/>
+ <path d="M565 828Q640 760 720 810T790 860" fill="none" stroke="#ffe7a2" stroke-width="15" stroke-linecap="round" filter="url(#glow)"/>
+ <path d="M570 820l-5-38m54 16-2-42m63 49 9-42m52 61 22-32" stroke="#e6d7ff" stroke-width="8" stroke-linecap="round"/>
+ <g fill="#fff0a3" filter="url(#glow)"><path d="M630 780l9 20 20 9-20 9-9 20-9-20-20-9 20-9z"/><path d="M745 850l7 15 15 7-15 7-7 15-7-15-15-7 15-7z"/></g>
+</g>
+<!-- dragon summit -->
+<g filter="url(#shadow)">
+ <path d="M110 935Q125 850 220 840Q315 800 400 850Q470 900 440 980Q370 1040 245 1035L145 1000Z" fill="#9b6bd0" stroke="#e7c8ff" stroke-width="7"/>
+ <path d="M190 950l70-135 60 115 50-105 55 140" fill="#67499e" stroke="#d9c5ff" stroke-width="6"/>
+ <path d="M245 905l15-90 17 55 20-43 18 95" fill="#a8edff" stroke="#eaffff" stroke-width="5"/>
+ <g transform="translate(325 920)"><path d="M-40 15q-5-42 28-48 28-4 38 18 22-10 32 8 7 24-22 32h-58z" fill="#7ce3a0" stroke="#d4ffda" stroke-width="5"/><path d="M-5-30l-18-30 38 18 22-22 1 42" fill="#7ce3a0" stroke="#d4ffda" stroke-width="5"/><circle cx="15" cy="-7" r="4" fill="#2b2454"/><path d="M34 13l20 7-20 7" fill="#ffb0a4"/></g>
+</g>
+<!-- glowing route connecting the five lands -->
+<path d="M275 340C420 355 520 365 615 465S500 615 365 665 480 750 635 825 410 910 300 950" fill="none" stroke="#ffe9a5" stroke-width="8" stroke-linecap="round" stroke-dasharray="2 22" filter="url(#glow)"/>
+<path d="M275 340C420 355 520 365 615 465S500 615 365 665 480 750 635 825 410 910 300 950" fill="none" stroke="#fff8d6" stroke-width="3" stroke-linecap="round" stroke-dasharray="2 22"/>
+<!-- numbered stage medallions -->
+<g font-family="Arial,sans-serif" font-weight="bold" text-anchor="middle">
+ <g transform="translate(275 340)"><circle r="31" fill="#fff0a6" stroke="#fff" stroke-width="5"/><circle r="23" fill="#b34db0"/><text y="9" font-size="25" fill="#fff">1</text></g>
+ <g transform="translate(615 465)"><circle r="31" fill="#fff0a6" stroke="#fff" stroke-width="5"/><circle r="23" fill="#347fbd"/><text y="9" font-size="25" fill="#fff">2</text></g>
+ <g transform="translate(365 665)"><circle r="31" fill="#fff0a6" stroke="#fff" stroke-width="5"/><circle r="23" fill="#b34db0"/><text y="9" font-size="25" fill="#fff">3</text></g>
+ <g transform="translate(635 825)"><circle r="31" fill="#fff0a6" stroke="#fff" stroke-width="5"/><circle r="23" fill="#5e55b7"/><text y="9" font-size="25" fill="#fff">4</text></g>
+ <g transform="translate(300 950)"><circle r="31" fill="#fff0a6" stroke="#fff" stroke-width="5"/><circle r="23" fill="#7b4b9d"/><text y="9" font-size="25" fill="#fff">5</text></g>
+</g>
+<g font-family="Arial,sans-serif" font-size="22" font-weight="bold" fill="#fff3d3" letter-spacing="2">
+ <text x="105" y="175">ENCHANTED GARDEN</text><text x="535" y="330">CRYSTAL FALLS</text><text x="190" y="555">ROYAL CANDY CASTLE</text><text x="560" y="705">STARLIGHT BRIDGE</text><text x="100" y="1080">DRAGON'S SUMMIT</text>
+</g>
+<g fill="#fff" opacity=".9"><circle cx="95" cy="500" r="5"/><circle cx="820" cy="610" r="4"/><circle cx="475" cy="160" r="4"/><circle cx="820" cy="1010" r="5"/></g>
+</svg>

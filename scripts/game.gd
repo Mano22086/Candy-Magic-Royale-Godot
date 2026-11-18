@@ -9,6 +9,16 @@ const WRAPPED_BOMB := 8
 const COLOR_BOMB := 9
 
 var grid: Array = []
+var candy_textures: Array[Texture2D] = []
+var special_textures: Dictionary = {}
+var booster_textures: Dictionary = {}
+var booster_counts: Dictionary = {"paint": 3, "shuffle": 3, "bomb": 3, "color": 3, "rocket": 3, "moves": 3}
+var booster_buttons: Dictionary = {}
+var active_booster := ""
+var game_started := false
+var start_layer: CanvasLayer
+var map_layer: CanvasLayer
+@export_enum("castle", "candy", "crystal") var board_theme: String = "castle"
 var touch_start := Vector2i(-1, -1)
 var moves := 30
 var score := 0
@@ -75,6 +85,7 @@ func _make_materials() -> void:
 		tile_materials.append(tile)
 
 func _make_board() -> void:
+	_add_board_backdrop()
 	var back_mesh := BoxMesh.new()
 	back_mesh.size = Vector3(GRID_SIZE * CELL + 0.34, GRID_SIZE * CELL + 0.34, 0.28)
 	var back := MeshInstance3D.new()
@@ -94,6 +105,24 @@ func _make_board() -> void:
 			tile.position = _cell_position(Vector2i(x, y), -0.04)
 			tile.material_override = tile_materials[(x + y) % 2]
 			add_child(tile)
+
+func _add_board_backdrop() -> void:
+	var paths := {
+		"castle": "res://assets/board/board-castle.svg",
+		"candy": "res://assets/board/board-candy.svg",
+		"crystal": "res://assets/board/board-crystal.svg"
+	}
+	var texture := load(paths.get(board_theme, paths["castle"])) as Texture2D
+	if texture == null:
+		push_warning("Board background missing; using the default dark board.")
+		return
+	var backdrop := Sprite3D.new()
+	backdrop.name = "BoardBackdrop"
+	backdrop.texture = texture
+	backdrop.pixel_size = 16.2 / 1600.0
+	backdrop.position = Vector3(0, 0, -0.82)
+	backdrop.shaded = false
+	add_child(backdrop)
 
 func _fill_grid() -> void:
 	grid.clear()
@@ -263,10 +292,7 @@ func _animate_swap(a: Vector2i, b: Vector2i) -> void:
 	candy_b.name = "Candy_%d_%d" % [a.x, a.y]
 
 func _find_candy(cell: Vector2i) -> Node3D:
-	for child in get_children():
-		if child is Node3D and child.has_meta("cell") and child.get_meta("cell") == cell:
-			return child
-	return null
+	return get_node_or_null("Candy_%d_%d" % [cell.x, cell.y]) as Node3D
 
 func _analyze_matches(preferred_anchor: Vector2i) -> Dictionary:
 	var found: Dictionary = {}
@@ -278,7 +304,7 @@ func _analyze_matches(preferred_anchor: Vector2i) -> Dictionary:
 		while x < GRID_SIZE:
 			var kind: int = grid[y][x]
 			var end := x + 1
-			while kind >= 0 and end < GRID_SIZE and grid[y][end] == kind:
+			while kind >= 0 and kind < BASE_TYPES and end < GRID_SIZE and grid[y][end] == kind:
 				end += 1
 			if kind >= 0 and end - x >= 3:
 				var cells: Array[Vector2i] = []
@@ -294,7 +320,7 @@ func _analyze_matches(preferred_anchor: Vector2i) -> Dictionary:
 		while y < GRID_SIZE:
 			var kind: int = grid[y][x]
 			var end := y + 1
-			while kind >= 0 and end < GRID_SIZE and grid[end][x] == kind:
+			while kind >= 0 and kind < BASE_TYPES and end < GRID_SIZE and grid[end][x] == kind:
 				end += 1
 			if kind >= 0 and end - y >= 3:
 				var cells: Array[Vector2i] = []
@@ -385,9 +411,82 @@ func _expand_special_chains(matches: Dictionary, target_kind: int) -> void:
 				if not activated.has(added_cell):
 					queue.append(added_cell)
 
+func _spawn_special_fx(cell: Vector2i, kind: int) -> void:
+	var fx := MeshInstance3D.new()
+	var mesh := SphereMesh.new()
+	mesh.radius = 0.24
+	mesh.height = 0.48
+	fx.mesh = mesh
+	var mat := StandardMaterial3D.new()
+	mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	mat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	mat.emission_enabled = true
+	mat.emission_energy_multiplier = 2.2
+	match kind:
+		ROCKET_H, ROCKET_V:
+			mat.albedo_color = Color("#75eaff", 0.82)
+			mat.emission = Color("#2fdcff")
+		WRAPPED_BOMB:
+			mat.albedo_color = Color("#ff9b42", 0.86)
+			mat.emission = Color("#ff5b18")
+		COLOR_BOMB:
+			mat.albedo_color = Color("#ff5de4", 0.88)
+			mat.emission = Color("#a94cff")
+	fx.material_override = mat
+	fx.position = _cell_position(cell, 0.72)
+	fx.scale = Vector3(0.35, 0.35, 0.35)
+	add_child(fx)
+	var tw := create_tween().set_parallel(true)
+	tw.tween_property(fx, "scale", Vector3(2.6, 2.6, 2.6), 0.22).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	tw.tween_property(mat, "albedo_color", Color(mat.albedo_color.r, mat.albedo_color.g, mat.albedo_color.b, 0.0), 0.22)
+	tw.chain().tween_callback(fx.queue_free)
+	if kind == ROCKET_H or kind == ROCKET_V:
+		var lane := MeshInstance3D.new()
+		var lane_mesh := BoxMesh.new()
+		lane_mesh.size = Vector3(GRID_SIZE * CELL, 0.14, 0.07) if kind == ROCKET_H else Vector3(0.14, GRID_SIZE * CELL, 0.07)
+		lane.mesh = lane_mesh
+		var lane_mat := StandardMaterial3D.new()
+		lane_mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+		lane_mat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+		lane_mat.albedo_color = Color("#6beaff", 0.9)
+		lane_mat.emission_enabled = true
+		lane_mat.emission = Color("#25dfff")
+		lane_mat.emission_energy_multiplier = 3.0
+		lane.material_override = lane_mat
+		lane.position = _cell_position(cell, 0.60)
+		lane.scale = Vector3(0.02, 1.0, 1.0) if kind == ROCKET_H else Vector3(1.0, 0.02, 1.0)
+		add_child(lane)
+		var lane_tw := create_tween().set_parallel(true)
+		lane_tw.tween_property(lane, "scale", Vector3.ONE, 0.16).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+		lane_tw.tween_property(lane_mat, "albedo_color", Color("#6beaff", 0.0), 0.2)
+		lane_tw.chain().tween_callback(lane.queue_free)
+
+func _spawn_clear_fx(cell: Vector2i) -> void:
+	var fx := MeshInstance3D.new()
+	var mesh := SphereMesh.new()
+	mesh.radius = 0.12
+	mesh.height = 0.24
+	fx.mesh = mesh
+	var mat := StandardMaterial3D.new()
+	mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	mat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	mat.albedo_color = Color("#ffe99a", 0.9)
+	mat.emission_enabled = true
+	mat.emission = Color("#ffc94a")
+	mat.emission_energy_multiplier = 1.5
+	fx.material_override = mat
+	fx.position = _cell_position(cell, 0.68)
+	add_child(fx)
+	var tw := create_tween().set_parallel(true)
+	tw.tween_property(fx, "scale", Vector3(2.0, 2.0, 2.0), 0.16)
+	tw.tween_property(mat, "albedo_color", Color("#ffe99a", 0.0), 0.16)
+	tw.chain().tween_callback(fx.queue_free)
+
 func _resolve_matches(initial_data: Dictionary) -> void:
 	var pending: Dictionary = initial_data
-	while true:
+	var cascade_guard := 0
+	while cascade_guard < 20:
+		cascade_guard += 1
 		var matches: Dictionary = pending.get("cells", {})
 		if matches.is_empty():
 			break
@@ -401,6 +500,7 @@ func _resolve_matches(initial_data: Dictionary) -> void:
 		var has_activation := false
 		for cell in matches.keys():
 			if int(grid[cell.y][cell.x]) >= ROCKET_H:
+				_spawn_special_fx(cell, int(grid[cell.y][cell.x]))
 				var special_candy := _find_candy(cell)
 				if special_candy != null:
 					activation_tween.tween_property(special_candy, "scale", Vector3(1.55, 1.55, 1.55), 0.13).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
@@ -411,6 +511,7 @@ func _resolve_matches(initial_data: Dictionary) -> void:
 		var clear_tween := create_tween().set_parallel(true)
 		var has_clear_animation := false
 		for cell in matches.keys():
+			_spawn_clear_fx(cell)
 			var candy := _find_candy(cell)
 			if candy != null:
 				clear_tween.tween_property(candy, "scale", Vector3.ZERO, 0.17).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_IN)
@@ -450,7 +551,10 @@ func _resolve_matches(initial_data: Dictionary) -> void:
 		else:
 			_expand_special_chains(cascade, -1)
 			pending = {"cells": cascade, "special_cell": Vector2i(-1, -1), "special_kind": -1}
-	hint_label.text = "حلو! كمّل مطابقة الحلوى"
+	if cascade_guard >= 20:
+		hint_label.text = "تم إيقاف سلسلة التطابقات الطويلة لحماية الأداء"
+	else:
+		hint_label.text = "حلو! كمّل مطابقة الحلوى"
 
 func _drop_and_refill() -> void:
 	var fall_tween := create_tween().set_parallel(true)
@@ -475,7 +579,7 @@ func _drop_and_refill() -> void:
 			var kind := randi_range(0, BASE_TYPES - 1)
 			grid[y][x] = kind
 			var new_candy := _create_candy(Vector2i(x, y), kind, true)
-			fall_tween.tween_property(new_candy, "position", _cell_position(Vector2i(x, y)), 0.24).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+			fall_tween.tween_property(new_candy, "position", _cell_position(Vector2i(x, y)), 0.24).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 			has_fall_animation = true
 	if has_fall_animation:
 		await fall_tween.finished
@@ -572,15 +676,24 @@ func _use_booster(cell: Vector2i) -> void:
 			if not cells.is_empty():
 				_expand_special_chains(cells, -1)
 		"bomb":
+			_spawn_special_fx(cell, WRAPPED_BOMB)
 			for y in range(maxi(0, cell.y - 1), mini(GRID_SIZE, cell.y + 2)):
 				for x in range(maxi(0, cell.x - 1), mini(GRID_SIZE, cell.x + 2)):
 					cells[Vector2i(x, y)] = true
 		"color":
+			if original_kind < 0 or original_kind >= BASE_TYPES:
+				active_booster = "color"
+				busy = false
+				hint_label.text = "اختار حلوى عادية عشان تحدد لون كرة الألوان"
+				_update_booster_bar()
+				return
+			_spawn_special_fx(cell, COLOR_BOMB)
 			for y in range(GRID_SIZE):
 				for x in range(GRID_SIZE):
 					if grid[y][x] == original_kind:
 						cells[Vector2i(x, y)] = true
 		"rocket":
+			_spawn_special_fx(cell, ROCKET_H)
 			for x in range(GRID_SIZE):
 				cells[Vector2i(x, cell.y)] = true
 	if used != "paint" or not cells.is_empty():

@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="1600" viewBox="0 0 900 1600">
+<defs>
+ <linearGradient id="bg" x2="0" y2="1"><stop stop-color="#102e55"/><stop offset=".48" stop-color="#254d83"/><stop offset="1" stop-color="#101c49"/></linearGradient>
+ <radialGradient id="glow"><stop stop-color="#4bd9ff" stop-opacity=".8"/><stop offset="1" stop-color="#4bd9ff" stop-opacity="0"/></radialGradient>
+ <linearGradient id="gold" x2="0" y2="1"><stop stop-color="#fff4b8"/><stop offset=".45" stop-color="#e9b95b"/><stop offset="1" stop-color="#8d542c"/></linearGradient>
+ <pattern id="stars" width="110" height="130" patternUnits="userSpaceOnUse"><circle cx="14" cy="19" r="2.5" fill="#fff2c4" opacity=".8"/><path d="M75 62l4 10 10 4-10 4-4 10-4-10-10-4 10-4z" fill="#fff2c4" opacity=".34"/></pattern>
+ <filter id="soft"><feGaussianBlur stdDeviation="22"/></filter>
+</defs>
+<rect width="900" height="1600" fill="url(#bg)"/>
+<ellipse cx="450" cy="210" rx="510" ry="300" fill="url(#glow)" filter="url(#soft)"/>
+<rect width="900" height="1600" fill="url(#stars)" opacity=".62"/>
+<path d="M0 0H900V175Q450 255 0 175Z" fill="#160d36" opacity=".28"/>
+<path d="M0 1425Q450 1320 900 1425V1600H0Z" fill="#100a2d" opacity=".45"/>
+<g fill="none" stroke="url(#gold)" stroke-width="8" opacity=".9">
+ <path d="M28 0V1600M872 0V1600"/>
+ <path d="M28 195Q450 280 872 195M28 1395Q450 1305 872 1395"/>
+ <path d="M28 28H872M28 1572H872" stroke-width="12"/>
+</g>
+<g fill="none" stroke="#fff0b2" stroke-width="2" opacity=".42">
+ <path d="M48 0V1600M852 0V1600"/>
+ <path d="M50 210Q450 295 850 210M50 1380Q450 1295 850 1380"/>
+</g>
+<g><g fill="none" stroke="#8cecff" stroke-width="8"><path d="M110 230l38-110 38 110-38 30zM714 230l38-110 38 110-38 30zM110 1370l38-110 38 110-38 30zM714 1370l38-110 38 110-38 30z"/></g><g fill="#d5fbff"><circle cx="450" cy="190" r="8"/><circle cx="450" cy="1410" r="8"/><circle cx="390" cy="150" r="4"/><circle cx="510" cy="1450" r="4"/></g></g>
+<g fill="#ffe7a0" opacity=".8">
+ <circle cx="80" cy="90" r="5"/><circle cx="820" cy="90" r="5"/><circle cx="80" cy="1510" r="5"/><circle cx="820" cy="1510" r="5"/>
+</g>
+<text x="450" y="105" text-anchor="middle" fill="#fff0c0" font-family="Georgia,serif" font-size="34" letter-spacing="7" opacity=".82">CRYSTAL GARDEN</text>
+</svg>

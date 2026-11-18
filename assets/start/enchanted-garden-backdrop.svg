@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1500">
+<defs>
+ <linearGradient id="sky" x2="0" y2="1"><stop stop-color="#160638"/><stop offset=".42" stop-color="#35105f"/><stop offset="1" stop-color="#17082f"/></linearGradient>
+ <radialGradient id="aura"><stop stop-color="#bd55ff" stop-opacity=".55"/><stop offset="1" stop-color="#6b22bd" stop-opacity="0"/></radialGradient>
+ <linearGradient id="crystal" x2="1" y2="1"><stop stop-color="#fff5ff"/><stop offset=".25" stop-color="#c98cff"/><stop offset=".65" stop-color="#7c35d7"/><stop offset="1" stop-color="#32105f"/></linearGradient>
+ <linearGradient id="water" x2="0" y2="1"><stop stop-color="#b6f6ff" stop-opacity=".9"/><stop offset=".45" stop-color="#52cfff" stop-opacity=".65"/><stop offset="1" stop-color="#8b5aff" stop-opacity="0"/></linearGradient>
+ <linearGradient id="leaf" x2="0" y2="1"><stop stop-color="#8affc7"/><stop offset="1" stop-color="#168b75"/></linearGradient>
+ <linearGradient id="gold" x2="0" y2="1"><stop stop-color="#fff4b4"/><stop offset=".4" stop-color="#ffcc69"/><stop offset="1" stop-color="#a84bce"/></linearGradient>
+ <filter id="glow"><feGaussianBlur stdDeviation="18"/></filter>
+ <filter id="soft"><feGaussianBlur stdDeviation="5"/></filter>
+ <pattern id="stars" width="130" height="130" patternUnits="userSpaceOnUse"><circle cx="20" cy="25" r="2.5" fill="#fff2c7"/><circle cx="88" cy="73" r="2" fill="#d6b5ff"/><path d="M55 8v18M46 17h18" stroke="#fff" stroke-opacity=".65" stroke-width="2"/></pattern>
+</defs>
+<rect width="1080" height="1500" fill="url(#sky)"/>
+<rect width="1080" height="1500" fill="url(#stars)" opacity=".65"/>
+<ellipse cx="540" cy="570" rx="500" ry="520" fill="url(#aura)"/>
+<!-- distant floating islands -->
+<g opacity=".75" fill="#39205f" stroke="#9d68db" stroke-width="7">
+ <path d="M-60 280Q75 210 210 270L255 315Q150 350 15 330Z"/><path d="M825 245Q960 185 1110 260L1085 325Q950 345 845 305Z"/>
+</g>
+<g fill="#5c368e" opacity=".9">
+ <path d="M30 270l45-120 36 115 48-80 36 105z"/><path d="M880 270l42-120 44 125 42-80 42 90z"/>
+</g>
+<!-- far castle silhouette -->
+<g transform="translate(390 105)" opacity=".78" fill="#48266f" stroke="#d8a3ff" stroke-opacity=".55" stroke-width="7">
+ <path d="M90 245V95h72v150M175 245V45h75v200M260 245V110h70v135M30 245V150h70v95"/>
+ <path d="M78 98l48-95 48 95M162 50l50-112 52 112M250 112l45-92 45 92M18 152l46-88 46 88" fill="#8a4eb5"/>
+ <path d="M0 245h360v55H0z" fill="#2b164d"/>
+ <g fill="#ffdf92" stroke="none"><path d="M200 178q18-30 36 0v45h-36z"/><path d="M110 178q15-24 30 0v40h-30z"/><path d="M285 178q15-24 30 0v40h-30z"/></g>
+</g>
+<!-- magical waterfalls on sides -->
+<g>
+ <path d="M0 300Q95 340 115 430L95 790Q65 900 0 950Z" fill="#3d2475" opacity=".8"/>
+ <path d="M15 360Q75 420 66 560L45 845Q35 900 10 930L0 420Z" fill="url(#water)"/>
+ <path d="M1080 330Q980 390 968 510L990 860Q1020 925 1080 960Z" fill="#3d2475" opacity=".8"/>
+ <path d="M1060 380Q1000 440 1012 590L1030 860Q1040 915 1070 940L1080 430Z" fill="url(#water)"/>
+ <path d="M35 430q45 80 18 230M1040 450q-45 80-18 230" fill="none" stroke="#d4fbff" stroke-width="12" opacity=".55" filter="url(#soft)"/>
+</g>
+<!-- glowing crystal clusters -->
+<g>
+ <g transform="translate(65 730)"><path d="M0 140L28 0 83 95 95 170Z" fill="url(#crystal)" stroke="#f1caff" stroke-width="5"/><path d="M28 0L38 142 0 140Z" fill="#fff" opacity=".55"/><path d="M92 170L132 40 172 165Z" fill="url(#crystal)" stroke="#c9a0ff" stroke-width="5"/><path d="M132 40l-2 123-38 7z" fill="#fff" opacity=".45"/></g>
+ <g transform="translate(900 780)"><path d="M0 165L42 0 95 118 105 185Z" fill="url(#crystal)" stroke="#f1caff" stroke-width="5"/><path d="M42 0L45 166 0 165Z" fill="#fff" opacity=".55"/><path d="M90 190L138 35 185 190Z" fill="url(#crystal)" stroke="#c9a0ff" stroke-width="5"/><path d="M138 35l-3 150-45 5z" fill="#fff" opacity=".45"/></g>
+</g>
+<!-- mid-ground hills and enchanted garden -->
+<path d="M0 1080Q140 940 280 1040Q410 1130 540 1035Q700 930 830 1030Q970 1120 1080 1000V1500H0Z" fill="#261046"/>
+<path d="M0 1200Q150 1080 300 1170Q430 1250 540 1160Q700 1050 830 1160Q980 1270 1080 1130V1500H0Z" fill="#32135b"/>
+<g fill="url(#leaf)" stroke="#164e65" stroke-width="5">
+ <path d="M-30 1110q90-120 170-15q-85 5-110 90q-60-5-60-75z"/><path d="M50 1190q90-130 170-30q-85 0-120 105q-55-15-50-75z"/>
+ <path d="M890 1150q90-140 180-35q-95 10-120 110q-65-10-60-75z"/><path d="M980 1250q70-110 145-20q-80 5-95 90q-55-10-50-70z"/>
+</g>
+<!-- oversized candy flowers -->
+<g>
+ <g transform="translate(130 1250)"><path d="M0 35v120" stroke="#70d99b" stroke-width="18"/><g fill="#ff75d4" stroke="#ffd9ff" stroke-width="5"><ellipse cy="-10" rx="30" ry="58"/><ellipse cy="-10" rx="30" ry="58" transform="rotate(60)"/><ellipse cy="-10" rx="30" ry="58" transform="rotate(120)"/></g><circle r="28" fill="url(#gold)"/></g>
+ <g transform="translate(945 1285)"><path d="M0 30v115" stroke="#70d99b" stroke-width="18"/><g fill="#68dcff" stroke="#d7fbff" stroke-width="5"><ellipse cy="-10" rx="28" ry="55"/><ellipse cy="-10" rx="28" ry="55" transform="rotate(60)"/><ellipse cy="-10" rx="28" ry="55" transform="rotate(120)"/></g><circle r="26" fill="url(#gold)"/></g>
+</g>
+<!-- scattered magic motes -->
+<g fill="#fff3b7"><circle cx="220" cy="450" r="7"/><circle cx="840" cy="530" r="6"/><circle cx="270" cy="900" r="5"/><circle cx="810" cy="940" r="7"/><circle cx="540" cy="250" r="6"/></g>
+<g stroke="#fff4c8" stroke-width="5" opacity=".85"><path d="M220 425v50M195 450h50M840 505v50M815 530h50M540 220v60M510 250h60"/></g>
+<!-- central playfield-safe vignette -->
+<rect x="145" y="300" width="790" height="900" rx="85" fill="#1a0b35" opacity=".28"/>
+<rect width="1080" height="1500" fill="none" stroke="#dba8ff" stroke-opacity=".18" stroke-width="12"/>
+</svg>
